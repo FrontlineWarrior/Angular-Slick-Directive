@@ -1,0 +1,45 @@
+<div class="multi-select-wrapper" >
+    <div class="multi-select" [class.open]="isOpen">
+        <button type="button" class="multi-select__trigger" (click)="toggle()" [disabled]="isDisable" >
+            <span>{{selectedItem}}</span>
+            <div class="arrow"></div>
+        </button>
+       
+        <ul class="multi-options" [style.width.px]="customWidth">         
+            <li class="mt-2">
+              <button type="button" (click)="selectAll()"> 
+              <span class="glyphicon glyphicon-ok"></span> 
+               Select All
+              </button>
+            </li>
+            <li>
+              <button type="button" (click)="unSelectAll()"> 
+                <span class="glyphicon glyphicon-remove"></span> 
+                 Unselect All
+              </button>
+            </li>
+            <li>
+            <div [class.selected-wrapper]="selectedOptions?.length > 0">
+              <button [title]="item" type="button" *ngFor="let item of selectedOptions, let i = index; trackBy:identifySelected" (click)="removeSelection(item, i)" class="selected">
+                <span class="glyphicon glyphicon-remove"></span>
+                {{item}}
+              </button>
+            </div>
+           </li>
+           <li>
+             <div class="search-form">
+              <form #searchForm ="ngForm" autocomplete="off">
+                <input placeholder="Search..." class="search" name="search" ngModel />
+              </form>
+             </div>
+           </li>
+            <li>
+              <cdk-virtual-scroll-viewport  itemSize="31" [class.container-height]="options?.length > 0" minBufferPx="200" maxBufferPx="400">   
+                <button [title]="item" type="button" [style.width.px]="customWidth" *cdkVirtualFor="let item of options, let i = index; templateCacheSize: 0 "  (click)="updateSelection(item, i)">
+                  {{item}}
+                </button>
+              </cdk-virtual-scroll-viewport>
+            </li>
+        </ul>
+    </div>
+</div>
